@@ -54,10 +54,11 @@ class image_feature:
         self.pca_components = pca_components
         self.verbose = verbose
         self.seeds = seeds
-        self.cnnType = cnnType
+        self.model = pretrained_model
 
-    def load_cnn_model(self, pretrained_model):
-        cnn_pretrained_model = torch.load(pretrained_model)
+
+    def load_cnn_model(self):
+        cnn_pretrained_model = torch.load(self.model)
         cnn_pretrained_model.to(self.device)
 #        if self.cnnType == 'ResNet50':
 #            cnn_pretrained_model = models.resnet50(pretrained=True)
@@ -85,9 +86,7 @@ class image_feature:
 
         return cnn_pretrained_model
 
-    def extract_image_feat(
-        self,
-        ):
+    def extract_image_feat(self):
 
         transform_list = [transforms.ToTensor(),
                           transforms.Normalize(mean=[0.485, 0.456, 0.406], 
