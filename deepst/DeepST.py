@@ -28,13 +28,13 @@ from sklearn.linear_model import LinearRegression
 from tqdm import tqdm
 from typing import Union, Callable
 
-from utils_func import *
-from his_feat import image_feature, image_crop
-from adj import graph, combine_graph_dict
-from model import DeepST_model, AdversarialNetwork
-from trainer import train
+from .utils_func import *
+from .his_feat import image_feature, image_crop
+from .adj import graph, combine_graph_dict
+from .model import DeepST_model, AdversarialNetwork
+from .trainer import train
 
-from augment import augment_adata
+from .augment import augment_adata
 
 
 class run():

@@ -30,7 +30,7 @@ import numpy as np
 from PIL import Image
 import pandas as pd
 # import stlearn
-from _compat import Literal
+from ._compat import Literal
 import scanpy
 import scipy
 import matplotlib.pyplot as plt
