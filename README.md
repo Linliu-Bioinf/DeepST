@@ -1,2 +1,0 @@
-# DeepST
-Package DeepST scripts

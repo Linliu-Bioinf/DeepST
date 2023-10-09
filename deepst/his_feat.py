@@ -44,8 +44,8 @@ class image_feature:
     def __init__(
         self,
         adata,
+        pretrained_model,
         pca_components=50,
-        cnnType='ResNet50',
         verbose=False,
         seeds=88,
     ):
@@ -56,33 +56,33 @@ class image_feature:
         self.seeds = seeds
         self.cnnType = cnnType
 
-    def load_cnn_model(
-        self,
-        ):
+    def load_cnn_model(self, pretrained_model):
+        cnn_pretrained_model = torch.load(pretrained_model)
+        cnn_pretrained_model.to(self.device)
+#        if self.cnnType == 'ResNet50':
+#            cnn_pretrained_model = models.resnet50(pretrained=True)
+#            cnn_pretrained_model.to(self.device)
+#        elif self.cnnType == 'Resnet152':
+#            cnn_pretrained_model = models.resnet152(pretrained=True)
+#            cnn_pretrained_model.to(self.device)            
+#        elif self.cnnType == 'Vgg19':
+#            cnn_pretrained_model = models.vgg19(pretrained=True)
+#            cnn_pretrained_model.to(self.device)
+#        elif self.cnnType == 'Vgg16':
+#            cnn_pretrained_model = models.vgg16(pretrained=True)
+#            cnn_pretrained_model.to(self.device)
+#        elif self.cnnType == 'DenseNet121':
+#            cnn_pretrained_model = models.densenet121(pretrained=True)
+#            cnn_pretrained_model.to(self.device)
+#        elif self.cnnType == 'Inception_v3':
+#            cnn_pretrained_model = models.inception_v3(pretrained=True)
+#            cnn_pretrained_model.to(self.device)
+#        else:
+#            raise ValueError(
+#                    f"""\
+#                        {self.cnnType} is not a valid type.
+#                        """)
 
-        if self.cnnType == 'ResNet50':
-            cnn_pretrained_model = models.resnet50(pretrained=True)
-            cnn_pretrained_model.to(self.device)
-        elif self.cnnType == 'Resnet152':
-            cnn_pretrained_model = models.resnet152(pretrained=True)
-            cnn_pretrained_model.to(self.device)            
-        elif self.cnnType == 'Vgg19':
-            cnn_pretrained_model = models.vgg19(pretrained=True)
-            cnn_pretrained_model.to(self.device)
-        elif self.cnnType == 'Vgg16':
-            cnn_pretrained_model = models.vgg16(pretrained=True)
-            cnn_pretrained_model.to(self.device)
-        elif self.cnnType == 'DenseNet121':
-            cnn_pretrained_model = models.densenet121(pretrained=True)
-            cnn_pretrained_model.to(self.device)
-        elif self.cnnType == 'Inception_v3':
-            cnn_pretrained_model = models.inception_v3(pretrained=True)
-            cnn_pretrained_model.to(self.device)
-        else:
-            raise ValueError(
-                    f"""\
-                        {self.cnnType} is not a valid type.
-                        """)
         return cnn_pretrained_model
 
     def extract_image_feat(

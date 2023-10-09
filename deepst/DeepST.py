@@ -88,13 +88,13 @@ class run():
 		self,
 		adata,
 		data_name,
-		cnnType = 'ResNet50',
+		pretrained_model,
 		pca_n_comps = 50, 
 		):
 		save_path_image_crop = Path(os.path.join(self.save_path, 'Image_crop', data_name))
 		save_path_image_crop.mkdir(parents=True, exist_ok=True)
 		adata = image_crop(adata, save_path=save_path_image_crop)
-		adata = image_feature(adata, pca_components = pca_n_comps, cnnType = cnnType).extract_image_feat()
+		adata = image_feature(adata, pretrained_model, pca_components = pca_n_comps).extract_image_feat()
 		return adata
 
 	def _get_augment(
