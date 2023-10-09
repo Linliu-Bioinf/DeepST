@@ -164,7 +164,7 @@ class train():
 
     def fit(self, 
             cluster_n=20, 
-            clusterType = 'Louvain',
+            clusterType = 'Leiden',
             res = 1.0,
             pretrain = True,
             ):
@@ -200,7 +200,22 @@ class train():
                 self.model.cluster_layer.data = torch.tensor(cluster_centers_).to(self.device)
             else:
                 self.model.model.cluster_layer.data = torch.tensor(cluster_centers_).to(self.device)
-   
+        elif clusterType == 'Leiden':
+            cluster_data = sc.AnnData(pre_z)
+            sc.pp.neighbors(cluster_data, n_neighbors=cluster_n)
+            sc.tl.leiden(cluster_data, resolution = res)
+            y_pred_last = cluster_data.obs['leiden'].astype(int).to_numpy()
+            n_clusters = len(np.unique(y_pred_last))
+            features = pd.DataFrame(pre_z,index=np.arange(0,pre_z.shape[0]))
+            Group = pd.Series(y_pred_last,index=np.arange(0,features.shape[0]),name="Group")
+            Mergefeature = pd.concat([features,Group],axis=1)
+            cluster_centers_ = np.asarray(Mergefeature.groupby("Group").mean())
+            if self.domains is None:
+                self.model.cluster_layer.data = torch.tensor(cluster_centers_).to(self.device)
+            else:
+                self.model.model.cluster_layer.data = torch.tensor(cluster_centers_).to(self.device)
+
+              
         with tqdm(total=int(self.pre_epochs), 
                     desc="DeepST trains a final model",
                         bar_format="{l_bar}{bar} [ time left: {remaining} ]") as pbar:
