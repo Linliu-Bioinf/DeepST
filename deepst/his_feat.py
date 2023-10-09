@@ -58,7 +58,8 @@ class image_feature:
 
 
     def load_cnn_model(self):
-        cnn_pretrained_model = torch.load(self.model)
+        cnn_pretrained_model = models.resnet50(pretrained = False)
+        cnn_pretrained_model.load_state_dict(torch.load(self.model), strict = True)
         cnn_pretrained_model.to(self.device)
 #        if self.cnnType == 'ResNet50':
 #            cnn_pretrained_model = models.resnet50(pretrained=True)
